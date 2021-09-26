@@ -56,7 +56,7 @@ new_names <- ifelse(nchar(murders$state) > 8, murders$abb, murders$state)
 print(new_names)
 
 ## 4. Create a function sum_n() that for any given value, say 'n', computes the 
-##    sum of the integers frim 1 to n (inclusive). Use the function to determine 
+##    sum of the integers from 1 to n (inclusive). Use the function to determine 
 ##    the sum of the integers from 1 to 5,000.
 
 sum_n <- function(n) {
@@ -114,25 +114,46 @@ compute_s_n(10)
 ##
 ##    and store the results of S_1, S_2, ..., S_25 using a for loop.
 
-s_n <- vector("numeric", 25)
+n_iterations <- 20000
 
-for(n_i in 1:25) {
+# Start the clock!
+ptm <- proc.time()
+
+s_n <- vector("numeric", n_iterations)
+
+for(n_i in 1:n_iterations) {
   s_n[n_i] <- compute_s_n(n_i)
 }
+
+# Stop the clock
+proc.time() - ptm
 
 print(s_n)
 
 
 ## 9. Repeat question 8, but this time use sapply().
 
-n_i <- 1:25
+# Start the clock!
+ptm <- proc.time()
+
+n_i <- 1:n_iterations
 s_n_9 <- sapply(n_i, compute_s_n)
+
+# Stop the clock
+proc.time() - ptm
 
 print(s_n_9)
 
 ## 10. Repeat question 8, but this time use map_dbl().
 
+# Start the clock!
+ptm <- proc.time()
+
+n_i <- 1:n_iterations
 s_n_10 <- map_dbl(n_i, compute_s_n)
+
+# Stop the clock
+proc.time() - ptm
 
 print(s_n_10)
 
@@ -147,8 +168,13 @@ plot(n_i, s_n)
 compute_s_n_check <- function(n) {
   n * (n + 1) * (2 * n + 1) / 6
 }
+# Start the clock!
+ptm <- proc.time()
 
 s_n_check <- sapply(n_i, compute_s_n_check)
+
+# Stop the clock
+proc.time() - ptm
 
 identical(s_n, s_n_check)
 
