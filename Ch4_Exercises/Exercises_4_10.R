@@ -70,7 +70,12 @@ print(ref_avg)
 
 ## 3. Now report the min and max values for the same group.
 
+ref_min_max <- NHANES %>%
+  filter(Gender == "female" & AgeDecade == " 20-29") %>%
+  summarize(min = min(BPSysAve, na.rm = TRUE),
+            max = max(BPSysAve, na.rm = TRUE)) 
 
+print(ref_min_max)
 
 
 ## 4. Compute the average and standard deviation for females, but for each age 
@@ -113,3 +118,10 @@ print(ref_female_male)
 ## 7. For males between the ages of 40-49, compare systolic blood pressure 
 ##    across race as reported in the 'Race1' variable. Order the resulting 
 ##    table from lowest to highest average systolic blood pressure. 
+
+ref_male_40_49 <- NHANES %>%
+  filter(Gender == "male" & AgeDecade == " 40-49" & !is.na(BPSysAve)) %>%
+  arrange(desc(BPSysAve)) %>%
+  select(Gender, AgeDecade, Race1, BPSysAve)
+
+ref_male_40_49
