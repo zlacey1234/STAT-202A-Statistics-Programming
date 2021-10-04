@@ -11,6 +11,9 @@
 ## Question 1
 ##
 
+library(Rcpp)
+
+
 ## 1. Assessing estimates of the 90th percentile of 100 independent, 
 ##    identically-distributed (iid) uniform (0, 1) random variables. 
 ##
@@ -70,7 +73,7 @@ compute_avg_90th_91st <- function(sample_90th_current_calculation,
 
 n_iterations <- 100000
 
-m_iterations <- 10000
+m_iterations <- 100000
 
 computed_sample_data  <- matrix(nrow = 4, ncol = n_iterations)
 
@@ -95,34 +98,32 @@ computed_sample_data <- sapply(iterations, compute_sample_n)
 # Stop the clock
 proc.time() - ptm
 
-
-sample_mean <- function(sample_vector, m) {
-  m_index <- 1:m
-  sum(sample_vector[m_index]) / m
-}
-
 sample_mean_90th_n <- vector("numeric", m_iterations)
 sample_mean_91st_n <- vector("numeric", m_iterations)
 sample_mean_90th_91st_n <- vector("numeric", m_iterations)
 sample_mean_90th_quantile_n <- vector("numeric", m_iterations)
 
-
 # Start the clock!
 ptm <- proc.time()
 
-for (iteration in 1:m_iterations) {
-  sample_mean_90th_n[iteration] <- sample_mean(computed_sample_data[1, ],
-                                               iteration)
-  sample_mean_91st_n[iteration] <- sample_mean(computed_sample_data[2, ],
-                                               iteration)
-  sample_mean_90th_91st_n[iteration] <- sample_mean(computed_sample_data[3, ],
-                                                    iteration)
-  sample_mean_90th_quantile_n[iteration] <-
-    sample_mean(computed_sample_data[4, ], iteration)
-}
+sample_mean_90th_n = sample_mean_c(
+  as.double(computed_sample_data[1, ]),
+  m_iterations)
 
+sample_mean_91st_n = sample_mean_c(
+  as.double(computed_sample_data[2, ]),
+  m_iterations)
+
+sample_mean_90th_91st_n = sample_mean_c(
+  as.double(computed_sample_data[3, ]),
+  m_iterations)
+
+sample_mean_90th_quantile_n = sample_mean_c(
+  as.double(computed_sample_data[4, ]),
+  m_iterations)
 # Stop the clock
 proc.time() - ptm
+
 
 
 plot_sample_mean <- function(m_iter) {
@@ -155,3 +156,4 @@ print(c("Computed 90th from Quantile:",
                     n_iterations)))
 
 print("Finished")
+
