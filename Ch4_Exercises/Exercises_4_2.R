@@ -10,19 +10,27 @@ library(tidyverse)
 ##    d. co2 is not tidy: to be tidy we would have to wrangle it to have three 
 ##       columns (year, month and value), then each co2 observation would have 
 ##       a row. 
+##
+##    First Answer Guess: d. 
+##    Result: Correct
 
 co2
+
 
 ## 2. Examine the built-in dataset 'ChickWeight'. Which of the following is 
 ##    true:
 ##
-##    a. ChickWeight is not tidy: each chick hax more than one row.
+##    a. ChickWeight is not tidy: each chick has more than one row.
 ##    b. ChickWeight is tidy: each observation (a weight) is represented by one
 ##       row. The chick from which this measurement came is one of the 
 ##       variables.
 ##    c. ChickWeight is not tidy: we are missing the year column. 
 ##    d. ChickWeight is tidy: it is stored in a data frame.
+##
+##    First Answer Guess: b
+##    Result:
 
+ChickWeight
 
 
 ## 3. Examine the built-in dataset 'BOD'. Which of the following is true:
@@ -32,7 +40,11 @@ co2
 ##    c. BOD is tidy: each row is an observation with two values (time and 
 ##       demand)
 ##    d. BOD is tidy: all small datasets are tidy by definition.
+##
+##    First Answer Guess: c.
+##    Result:
 
+BOD
 
 
 ## 4. Which of the following built-in datasets is tidy (you can pick more than 
@@ -44,4 +56,13 @@ co2
 ##    d. Formaldehyde
 ##    e. Orange
 ##    f. UCBAdmissions
+##
+##    First Answer Guess: c, d, e
+##    Result:
 
+BJsales
+EuStockMarkets
+DNase
+Formaldehyde
+Orange
+UCBAdmissions
