@@ -17,8 +17,8 @@ library(Rcpp)
 ## 1. Assessing estimates of the 90th percentile of 100 independent, 
 ##    identically-distributed (iid) uniform (0, 1) random variables. 
 ##
-##    The R function quantile() implements a somewhat complex interpolation 
-##    method in order to estimate a particular quantile, such as the 90th 
+##    The R function quantile() implements a somewhat complex 
+##    interpolation method in order to estimate a particular quantile, such as the 90th 
 ##    percentile. We will compare the estimate in quantile() with simpler 
 ##    estimates. 
 
