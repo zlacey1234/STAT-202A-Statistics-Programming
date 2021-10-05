@@ -3,7 +3,6 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-
 DoubleVector sample_mean_c(DoubleVector sample_data_vec, int m) {
   
   DoubleVector sample_mean(m);
@@ -13,8 +12,6 @@ DoubleVector sample_mean_c(DoubleVector sample_data_vec, int m) {
     sample_sum += sample_data_vec[iteration];
     
     sample_mean[iteration] = sample_sum / (iteration + 1);
-    
-    // std::cout << iteration << std::endl;
   }
   
   return sample_mean;
