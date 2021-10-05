@@ -33,6 +33,10 @@ pi2 <- function(n) {
   pi2_estimates[n]
 }
 
+
+# Start the clock!
+ptm <- proc.time()
+
 pi2_0 <- pi2(10^0)
 pi2_1 <- pi2(10^1)
 pi2_2 <- pi2(10^2)
@@ -40,6 +44,9 @@ pi2_3 <- pi2(10^3)
 pi2_4 <- pi2(10^4)
 pi2_5 <- pi2(10^5)
 pi2_6 <- pi2(10^6)
+
+# Stop the clock
+proc.time() - ptm
 
 
 ## b. Write a function pi3(n) that approximates pi as a function of 'n', by 
@@ -61,10 +68,15 @@ pi3 <- function(n, plot_bool) {
          xlab = "X-Component", ylab = "Y-Component")
     
     points(x[which(is_in_unit_circle)], 
-          y[which(is_in_unit_circle)], col="green")
+           y[which(is_in_unit_circle)], 
+           cex = 0.8,
+           pch=".", col="green")
     points(x[which(!is_in_unit_circle)], 
-          y[which(!is_in_unit_circle)], col="red")
+           y[which(!is_in_unit_circle)], 
+           cex = 0.8,
+           pch=".", col="red")
   }
+  
   
   pi_estimate <- 4 * sum(is_in_unit_circle) / n
 }
