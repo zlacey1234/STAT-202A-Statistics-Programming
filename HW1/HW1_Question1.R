@@ -143,9 +143,9 @@ plot_sample_mean = function(m_iter) {
 plot_sample_mean(mIterations)
 
 
-## e. Report the ultimate sample mean of your 100,000 estimates, for each of 
-##    the four estimates. In 1-2 sentences, indicate which of the 4 estimates 
-##    appears to be the best, and why.
+## e. Report the ultimate sample mean of your 100,000 estimates, for each 
+##    of the four estimates. In 1-2 sentences, indicate which of the 4 
+##    estimates appears to be the best, and why.
 
 print(c("Computed 90th of Sorted:",
         sampleMean90thN[nIterations]))
