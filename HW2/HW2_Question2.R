@@ -36,9 +36,47 @@ library(tidyverse)
 LAHousingPriceAug2013URL = 
   "http://www.stat.ucla.edu/~frederic/202a/F21/LAhousingpricesaug2013.txt"
 
-housingData = read_table(LAHousingPriceAug2013URL)
+# Housing Data [X]
+housingData = read.table(LAHousingPriceAug2013URL, header = TRUE)
 
-print(housingData)
+# Sales of Single Family Homes [Y]
+salesSingleFamilyHomes = 
+  as.numeric(as.vector(housingData[, 3]))
+
+# Median Price of Single Family Residence [X1]
+medianPriceSFR = 
+  as.numeric(as.vector(housingData[, 4]))
+
+# Median Price of Condos [X2]
+medianPriceCondo = 
+  as.numeric(as.vector(housingData[, 7]))
+
+# Median Home Price Per Square Foot [X3]
+medianHomePriceSqFt =
+  as.numeric(as.vector(housingData[, 9]))
+
+# Vector that is the sum of the Y, X1, X2, X3 vectors (where if 
+# any of the rows have NA, then NA is coerced to the summation 
+# value). So any row that has a NA in any of the four variables
+# will have NA value in the corresponding row of checkForNAVector.
+checkForNAVector = 
+  (salesSingleFamilyHomes + medianPriceSFR 
+   + medianPriceCondo + medianHomePriceSqFt)
+
+rowIndexBooleanNoNA = !is.na(checkForNAVector)
+
+# Sales of Single Family Homes [Y]
+Y = salesSingleFamilyHomes[rowIndexBooleanNoNA]
+
+# Median Price of Single Family Residence [X1]
+X1 = medianPriceSFR[rowIndexBooleanNoNA]
+
+# Median Price of Condos [X2]
+X2 = medianPriceCondo[rowIndexBooleanNoNA]
+
+# Median Home Price Per Square Foot [X3]
+X3 = medianHomePriceSqFt[rowIndexBooleanNoNA]
+
 
 ##    b. Perform regression (with intercept) of $Y$ on $X = {X_{1}, 
 ##       X_{2}, X_{3}}$ to compute a vector of parameter estimates, 
@@ -48,6 +86,18 @@ print(housingData)
 ##       $\hat{\beta}_{i}$, is the slope of the corresponding to 
 ##       explanatory variable $X_{i}$. Record $\hat{\beta}_{1}$.
 
+Beta = lm(Y ~ X1 + X2 + X3)
+
+Beta0 = Beta$coefficients[1]
+Beta1 = Beta$coefficients[2]
+Beta2 = Beta$coefficients[3]
+Beta3 = Beta$coefficients[4]
+
+attributes(Beta)
+summary(Beta)
+
+print(Beta1)
+
 ##    c. Let $i = 1$. Perform regression with intercept of $Y$ on 
 ##       $X$ with row $i$ removed from the dataset. Let 
 ##       $\hat{\beta}_{^{(-i)}}$, denote your resulting vector of 
@@ -55,12 +105,64 @@ print(housingData)
 ##       your estimate of the slope corresponding to $X_{1}$. Record 
 ##       $\hat{\beta}_{1^{(-i)}} - \hat{\beta}_{1}$.
 
+BetaIterationRemoved = function(iterationIdx, Y, X1, X2, X3) {
+  iterationRemovedY = Y[-iterationIdx]
+  iterationRemovedX1 = X1[-iterationIdx]
+  iterationRemovedX2 = X2[-iterationIdx]
+  iterationRemovedX3 = X3[-iterationIdx]
+  
+  iterationRemovedBeta = lm(iterationRemovedY ~ 
+                              iterationRemovedX1 
+                            + iterationRemovedX2 
+                            + iterationRemovedX3)
+}
+
 ##    d. Repeat part (C) for $i = 2, 3, 4, \dots, 217$.
+
+nSampleIterations = length(Y)
+
+iterations = 1:nSampleIterations
+
+Beta0MinusIteration = vector("numeric", nSampleIterations)
+Beta1MinusIteration = vector("numeric", nSampleIterations)
+Beta2MinusIteration = vector("numeric", nSampleIterations)
+Beta3MinusIteration = vector("numeric", nSampleIterations)
+
+for (iteration in iterations) {
+  BetaMinusIteration = BetaIterationRemoved(iteration, Y, X1, X2, X3)
+  
+  Beta0MinusIteration[iteration] = BetaMinusIteration$coefficients[1]
+  Beta1MinusIteration[iteration] = BetaMinusIteration$coefficients[2]
+  Beta2MinusIteration[iteration] = BetaMinusIteration$coefficients[3]
+  Beta3MinusIteration[iteration] = BetaMinusIteration$coefficients[4]
+}
+
+influenceIntercept = Beta0MinusIteration - Beta0
+influenceX1 = Beta1MinusIteration - Beta1
+influenceX2 = Beta2MinusIteration - Beta2
+influenceX3 = Beta3MinusIteration - Beta3
+
+print(influenceIntercept)
+print(influenceX1)
+print(influenceX2)
+print(influenceX3)
+
+influenceCheck = influence(Beta, do.coef = TRUE)
+
+influenceCheckX1 = influenceCheck$coefficients[, 2]
+
+print(influenceCheck)
+print(influenceCheckX1)
+
 
 ##    e. Plot the influences, $\hat{\beta}_{1^{(-i)}} - 
 ##       \hat{\beta}_{1}$, versus $i$. That is, the x-axis will span 
 ##       from $i = 1$ to $217$, and the y-axis will be 
 ##       $\hat{\beta}_{1^{(-i)}} - \hat{\beta}_{1}$, which indicates 
 ##       the influence of observation $i$ on the estimated slope.
+
+plot(iterations, influenceX1)
+
+plot(iterations, influenceCheckX1)
 
 
