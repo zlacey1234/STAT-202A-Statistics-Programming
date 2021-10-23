@@ -11,6 +11,8 @@
 ## Question 1
 ##
 
+library(maps)
+library(RgoogleMaps)
 library(tidyverse)
 
 ## 1. Kernel density estimates with simulation based 95% confidence 
@@ -28,7 +30,13 @@ library(tidyverse)
 ##       input "01" for January and "01" for the day as well. You should 
 ##       have 35 events.
 
-earthquakeData = read_table("SearchResults.txt")
+earthquakeData = read.table("SearchResults.txt")
+
+print(earthquakeData)
+
+earthquakeMag = as.numeric(as.vector(earthquakeData[, 5]))
+
+print(earthquakeMag)
 
 ##    b. Take the vector of the earthquake magnitudes, and use it to 
 ##       make a kernel density estimate of the earthquake magnitudes, 
@@ -41,8 +49,18 @@ earthquakeData = read_table("SearchResults.txt")
 ##       values $m_{1}, m_{2}, \dots, m_{100}$ for parts (c) and (d) 
 ##       below.
 
+hist(earthquakeMag, nclass = 100, prob = TRUE)
+
+b2 = bw.nrd(earthquakeMag)
+
+lines(density(earthquakeMag,bw=b2),col="red")
+lines(density(earthquakeMag,bw=10*b2),col="blue")
+lines(density(earthquakeMag,bw=.1*b2),col="brown")
+
+print(b2)
+
 ##    c. Simulate 35 earthquake magnitudes drawn independently from 
-##       your kernel density estimate $\hat{f}$ in part (B). Kernel 
+##       your kernel density estimate $\hat{f}$ in part (b). Kernel 
 ##       smooth these 35 simulated magnitudes, to produce new kernel 
 ##       density estimates $\tilde{f}(m_{1}), \tilde{f}(m_{1}), \dots, 
 ##       \tilde{f}(m_{100})$, using the same kernel and bandwidth you 
@@ -54,7 +72,7 @@ earthquakeData = read_table("SearchResults.txt")
 ##       $\tilde{f}(m_{i})$
 
 ##    e. Extract the longitudes and latitudes of the earthquake origin 
-##       locations from part (A), and make a 2-dimensional kernel 
+##       locations from part (a), and make a 2-dimensional kernel 
 ##       smoothing of these locations. Overlay the actual locations as 
 ##       points on the plot. Include a legend. Show the 
 ##       kernel-smoothing and locations with a map of (part of) 
