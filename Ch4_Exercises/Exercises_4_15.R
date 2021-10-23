@@ -18,11 +18,10 @@ data(murders)
 murders 
 
 
-
 ## 2. Use as_tibble() to convert the 'murders' data table into a tibble and 
 ##    save it in an object called 'murders_tibble'.
 
-murders_tibble <- as_tibble(murders)
+murders_tibble = as_tibble(murders)
 
 print(murders_tibble)
 

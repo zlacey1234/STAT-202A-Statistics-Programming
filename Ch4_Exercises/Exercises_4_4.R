@@ -24,7 +24,7 @@ library(dplyr)
 library(dslabs)
 data(murders)
 
-murders <- mutate(murders, rate = total / population * 100000)
+murders = mutate(murders, rate = total / population * 100000)
 
 
 ## 2. If rank(x) gives you the ranks of 'x' from lowest to highest, rank(-x) 
@@ -32,7 +32,7 @@ murders <- mutate(murders, rate = total / population * 100000)
 ##    add a column 'rank' containing the rank, from highest to lowest murder 
 ##    rate. Make sure you redefine 'murders' so we can keep using this variable.
 
-murders <- mutate(murders, rank = rank(-rate))
+murders = mutate(murders, rank = rank(-rate))
 
 
 ## 3. With 'dplyr', we can use select() to show only certain columns. For 
@@ -71,9 +71,9 @@ filter(murders, rank <= 5)
 ##    South region. How many states are in this category? You can us the 
 ##    function nrow() for this. 
 
-no_south <- filter(murders, region != "South")
+no_south = filter(murders, region != "South")
 
-num_states_south <- nrow(murders) - nrow(no_south)
+num_states_south = nrow(murders) - nrow(no_south)
 
 
 ## 6. We can also use %in% to filter with 'dplyr'. You can therefore see the 
@@ -84,7 +84,7 @@ num_states_south <- nrow(murders) - nrow(no_south)
 ##    Create a new data frame called 'murders_nw' with only the states from the 
 ##    Northeast and the West. How many states are in this category?
 
-murders_nw <- filter(murders, region %in% c("Northeast", "West"))
+murders_nw = filter(murders, region %in% c("Northeast", "West"))
 
  
 ## 7. Suppose you want to live in the Northeast or West and want the murder 
@@ -101,11 +101,11 @@ murders_nw <- filter(murders, region %in% c("Northeast", "West"))
 ##    the murder rate is less than 1. Use select() to show only the state name, 
 ##    the rate, and the rank.
 
-my_states <- filter(murders, (rate <= 1) & (region == "West" | 
+my_states = filter(murders, (rate <= 1) & (region == "West" | 
                                             region == "Northeast"))
 
 ## Alternative method
-my_states_alternative <- filter(murders, 
+my_states_alternative = filter(murders, 
                                 (rate <= 1) & region %in% c("Northeast", 
                                                             "West"))
 
