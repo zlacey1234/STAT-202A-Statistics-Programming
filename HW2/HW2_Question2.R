@@ -147,14 +147,6 @@ print(influenceX1)
 print(influenceX2)
 print(influenceX3)
 
-influenceCheck = influence(Beta, do.coef = TRUE)
-
-influenceCheckX1 = influenceCheck$coefficients[, 2]
-
-print(influenceCheck)
-print(influenceCheckX1)
-
-
 ##    e. Plot the influences, $\hat{\beta}_{1^{(-i)}} - 
 ##       \hat{\beta}_{1}$, versus $i$. That is, the x-axis will span 
 ##       from $i = 1$ to $217$, and the y-axis will be 
@@ -163,6 +155,4 @@ print(influenceCheckX1)
 
 plot(iterations, influenceX1)
 
-plot(iterations, influenceCheckX1)
-
-
+print("Finished")
