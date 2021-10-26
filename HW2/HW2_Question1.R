@@ -49,15 +49,38 @@ print(earthquakeMag)
 ##       values $m_{1}, m_{2}, \dots, m_{100}$ for parts (c) and (d) 
 ##       below.
 
-hist(earthquakeMag, nclass = 100, prob = TRUE)
+# Kernel Density Estimate Function
+density2 = function(x1, xgrid, bw2) {
+## x1 = data
+## xgrid = vector of values where we compute the kernel estimate.
+## bw2 = bandwidth
+  
+  n = length(xgrid)
+  y = rep(0, n)
+  
+  for(i in 1:n) {
+    y[i] = sum(dnorm(x1 - xgrid[i], sd = bw2)) / length(x1)
+  }
+  y
+}
 
+# Bandwidth of the Earthquake Magnitude data using Scott's Rule of Thumb
 b2 = bw.nrd(earthquakeMag)
 
-lines(density(earthquakeMag,bw=b2),col="red")
-lines(density(earthquakeMag,bw=10*b2),col="blue")
-lines(density(earthquakeMag,bw=.1*b2),col="brown")
+# Range of the Earthquake Magnitude data 
+earthquakeMagRange = range(earthquakeMag)
 
-print(b2)
+# Vector 'm': vector of equally spaced earthquake magnitudes spanning the range 
+# of the Earthquake Magnitude data (vector of length 100).
+m = seq(earthquakeMagRange[1], earthquakeMagRange[2], length = 100)
+
+# Kernel Density Estimate resulting from vector 'm'.
+kernelDensityEstimate = density2(earthquakeMag, m, b2)
+
+# Plot the Kernel Density Estimate
+plot(m, kernelDensityEstimate, type = "l", 
+     xlab = "m_i, i = 1, ..., 100", 
+     ylab = "Kernel Density Estimate")
 
 ##    c. Simulate 35 earthquake magnitudes drawn independently from 
 ##       your kernel density estimate $\hat{f}$ in part (b). Kernel 
@@ -65,6 +88,49 @@ print(b2)
 ##       density estimates $\tilde{f}(m_{1}), \tilde{f}(m_{1}), \dots, 
 ##       \tilde{f}(m_{100})$, using the same kernel and bandwidth you 
 ##       used in part (b).
+
+# c = 1.25 : Density is always less than 1.25
+# d = 1.80 : Span of the Earthquake Magnitudes (5.80 - 4.00)
+# b = cd = 2.25 : (1.25)(1.80) = 2.25
+b = 2.25
+
+# g(x) = uniform on (4.00, 5.80)
+g = 1 / (1.80)
+
+n = 35
+x = c()
+i = 0
+
+while(i < n) {
+  x0 = runif(1)*1.80 + 4.00
+  
+  print(x0)
+}
+
+print(max(kernelDensityEstimate))
+
+
+x1 = c(1,2.8,3)
+grid1 = seq(-2,6,length=101)
+bw1 = bw.nrd(x1)
+y = density2(x1,grid1,bw1)
+plot(grid1,y,type="l",xlab="x",ylab="density")
+
+b = 4; g = 1/8
+n = 30000
+x = c() ## these will contain the results.
+i = 0
+while(i < n){
+  x0 = runif(1)*8 - 2 ## this simulates the uniform g(x) on (-2,6)
+  fx0 = density2(x1,x0,bw1) ## this computes f(x0) 
+  if(runif(1) < fx0 / (b*g)){ ## keep x0
+    i = i+1
+    x[i] = x0
+    if(i/100 == floor(i/100)) cat(i, " ")
+  }
+}
+
+hist(x,nclass=40,prob=T,add=T,col="green")
 
 ##    d. Repeat step (c) 200 times. For each value of m, find the 
 ##       2.5th and 97.5th, percentiles (i.e., the 5th largest and the 
