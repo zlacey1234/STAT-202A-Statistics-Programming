@@ -153,6 +153,19 @@ print(influenceX3)
 ##       $\hat{\beta}_{1^{(-i)}} - \hat{\beta}_{1}$, which indicates 
 ##       the influence of observation $i$ on the estimated slope.
 
-plot(iterations, influenceX1)
+influenceTibble = 
+  tibble(iterations = iterations,
+         intercept = influenceIntercept,
+         X1 = influenceX1,
+         X2 = influenceX2,
+         X3 = influenceX3)
+
+influenceTibble %>% ggplot() +
+  geom_point(aes(x = iterations, y = X1)) +
+  labs(x = "Observations i = 1, ..., 217",
+       y = 
+         expression(
+           X[1]*" Influence of Observation "*beta[1]*"(-i) - "*beta[1]))
+
 
 print("Finished")
