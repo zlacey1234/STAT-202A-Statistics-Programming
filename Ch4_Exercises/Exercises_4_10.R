@@ -48,7 +48,7 @@ data(NHANES)
 ##    values using filter().
 NHANES
 
-ref <- NHANES %>%
+ref = NHANES %>%
   filter(Gender == "female" & AgeDecade == " 20-29") %>%
   summarize(average = mean(BPSysAve, na.rm = TRUE), 
             sd = sd(BPSysAve, na.rm = TRUE))
@@ -59,7 +59,7 @@ print(ref)
 ## 2. Using a pipe, assign the average to a numeric variable 'ref_avg'. Hint: 
 ##    Use the code similar to above and the pull().
 
-ref_avg <- NHANES %>%
+ref_avg = NHANES %>%
   filter(Gender == "female" & AgeDecade == " 20-29") %>%
   summarize(average = mean(BPSysAve, na.rm = TRUE), 
             sd = sd(BPSysAve, na.rm = TRUE)) %>%
@@ -70,7 +70,7 @@ print(ref_avg)
 
 ## 3. Now report the min and max values for the same group.
 
-ref_min_max <- NHANES %>%
+ref_min_max = NHANES %>%
   filter(Gender == "female" & AgeDecade == " 20-29") %>%
   summarize(min = min(BPSysAve, na.rm = TRUE),
             max = max(BPSysAve, na.rm = TRUE)) 
@@ -83,7 +83,7 @@ print(ref_min_max)
 ##    the age groups are defined by 'AgeDecade'. Hint: rather than filtering by 
 ##    age and gender, filter by 'Gender' and then use group_by().
 
-ref_female <- NHANES %>%
+ref_female = NHANES %>%
   filter(Gender == "female") %>%
   group_by(AgeDecade) %>%
   summarize(average = mean(BPSysAve, na.rm = TRUE), 
@@ -94,7 +94,7 @@ print(ref_female)
 
 ## 5. Repeat question 4 for males.
 
-ref_male <- NHANES %>%
+ref_male = NHANES %>%
   filter(Gender == "male") %>%
   group_by(AgeDecade) %>%
   summarize(average = mean(BPSysAve, na.rm = TRUE), 
@@ -107,7 +107,7 @@ print(ref_male)
 ##    of code. This is because group_by() permits us to group by more than one 
 ##    variable. Obtain one big summary table using group_by(AgeDecade, Gender).
 
-ref_female_male <- NHANES %>%
+ref_female_male = NHANES %>%
   group_by(AgeDecade, Gender) %>%
   summarize(average = mean(BPSysAve, na.rm = TRUE), 
             sd = sd(BPSysAve, na.rm = TRUE))
@@ -119,7 +119,7 @@ print(ref_female_male)
 ##    across race as reported in the 'Race1' variable. Order the resulting 
 ##    table from lowest to highest average systolic blood pressure. 
 
-ref_male_40_49 <- NHANES %>%
+ref_male_40_49 = NHANES %>%
   filter(Gender == "male" & AgeDecade == " 40-49" & !is.na(BPSysAve)) %>%
   arrange(desc(BPSysAve)) %>%
   select(Gender, AgeDecade, Race1, BPSysAve)
