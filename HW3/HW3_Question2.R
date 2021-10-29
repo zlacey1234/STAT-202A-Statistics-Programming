@@ -40,10 +40,12 @@ library(tidyverse)
 ##    in your dataset, and plot your kernel density estimate $\hat{f}(m_{1}), 
 ##    \hat{f}(m_{1}), \dots, \hat{f}(m_{100})$.
 
+# Loading the Earthquake Data
 earthquakeData = read.table("SearchResults.txt")
 
 print(earthquakeData)
 
+# Extracting the Earthquake Magnitude Data
 earthquakeMag = as.numeric(as.vector(earthquakeData[, 5]))
 
 print(earthquakeMag)
@@ -58,22 +60,29 @@ earthquakeMagRange = range(earthquakeMag)
 # range of the Earthquake Magnitude data (vector of length 100).
 m = seq(earthquakeMagRange[1], earthquakeMagRange[2], length = 100)
 
-sourceCpp("guassianKernelDensity.cpp")
+# Sourcing the C function
+sourceCpp("gaussianKernelDensity.cpp")
 
+# Number of elements in vector m
 numVectorM = length(m)
 
+# Number of observations in the data (earthquake magnitude data)
 numEarthquakeMag = length(earthquakeMag)
 
+# Kernel density estimates results vector 
 kernelDensityEstimate = vector("numeric", numVectorM)
 
+# Estimation of the Gaussian kernel density 
 kernelDensityEstimate = 
-  guassianKernelDensity(numVectorM, numEarthquakeMag, 
+  gaussianKernelDensity(numVectorM, numEarthquakeMag, 
                         m, earthquakeMag, kernelDensityEstimate, b2)
 
+# Place the resulting Gaussian kernel density estimates into a Tibble.
 kernelDensityEstimateTibble = tibble(m = m, 
                                      kernelDensityEstimate = 
                                        kernelDensityEstimate)
 
+# Plot the results
 kernelDensityEstimateTibble %>% ggplot() + 
   geom_line(aes(x = m, y = kernelDensityEstimate)) + 
   labs(x = expression(m[i]*", i = 1, ..., 100"),
