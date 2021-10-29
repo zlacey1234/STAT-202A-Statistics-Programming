@@ -28,25 +28,34 @@ library(tidyverse)
 ##    You do not need to show alt2(n) for all values of n and should not 
 ##    plot alt2 for very small values of 'n' if they are off the plot.
 
+# Source the C function
 sourceCpp("alt2.cpp")
 
+# Number of Iterations in the Series
 nIterations = 1000000
 
+# Initialize a vector to store the resulting alt2 estimates in. 
 alt2Estimates = vector("numeric", nIterations)
 
+# Determine the first 1,000,000 alt2 estimates of ln(n)
 alt2Estimates = alt2(1000000)
 
+# Sequence from [(1,000), (1,000,000)] with a 1,000 increment spacing.
+# This is used to summarize the results in a less computationally 
+# expensive way (as opposed to including all 1,000,000 values)
 nSeq = seq(1000, nIterations, 1000)
 
+# Summarized alt2 estimate results
 alt2EstimatesSeq = alt2Estimates[nSeq]
 
 print(nSeq)
 print(alt2EstimatesSeq)
 
+# Place the summarized alt2 estimate results into a Tibble
 alt2EstimatesTibble = tibble(n = nSeq, 
                              alt2Estimates = alt2EstimatesSeq)
 
-
+# Plot the results
 alt2EstimatesTibble %>% ggplot() +
   geom_point(aes(x = n, y = alt2Estimates)) + 
   labs(x = "Sequence Number n",
