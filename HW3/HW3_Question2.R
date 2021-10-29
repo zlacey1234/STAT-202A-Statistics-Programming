@@ -1,4 +1,4 @@
-## Homework 3 Question 1
+## Homework 3 Question 2
 ##
 ## Author: Zachary G. Lacey
 ## Email: zlacey@g.ucla.edu
