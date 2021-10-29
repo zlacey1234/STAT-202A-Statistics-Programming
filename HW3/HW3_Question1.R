@@ -2,11 +2,11 @@
 ##
 ## Author: Zachary G. Lacey
 ## Email: zlacey@g.ucla.edu
-## Date: October 26th, 2021
+## Date: October 27th, 2021
 ##
 ## Course: STAT 202A - Statistics Programming
 ## Assignment: Homework 3
-## Due Date: 
+## Due Date: November 11th, 2021
 ##
 ## Question 1
 ##
@@ -48,6 +48,8 @@ alt2EstimatesTibble = tibble(n = nSeq,
 
 
 alt2EstimatesTibble %>% ggplot() +
-  geom_point(aes(x = n, y = alt2Estimates))
+  geom_point(aes(x = n, y = alt2Estimates)) + 
+  labs(x = "Sequence Number n",
+       y = "alt2() Estimates")
 
 print("Finished")
