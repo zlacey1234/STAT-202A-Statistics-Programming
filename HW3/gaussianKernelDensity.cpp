@@ -2,7 +2,6 @@
 #include <Rmath.h>
 using namespace Rcpp;
 
-
 // [[Rcpp::export]]
 /* Function: gaussianKernelDensity
  * Input:
