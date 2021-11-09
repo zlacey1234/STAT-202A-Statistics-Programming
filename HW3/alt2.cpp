@@ -5,11 +5,11 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 /* Function: alt2
  * Input: 
- *    n: Number of iterations in the infinite series to estimate ln(n)
+ *    n: Number of iterations in the infinite series to estimate ln[n]
  *    
  * Output: 
  *    alt2Estimates: Vector that contains the first 'n' alt2 estimates of 
- *                   ln(n) 
+ *                   ln[n] 
  * 
  */
 DoubleVector alt2(int n) {
