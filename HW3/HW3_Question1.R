@@ -38,7 +38,7 @@ nIterations = 1000000
 alt2Estimates = vector("numeric", nIterations)
 
 # Determine the first 1,000,000 alt2 estimates of ln(n)
-alt2Estimates = alt2(1000000)
+alt2Estimates = alt2(nIterations)
 
 # Sequence from [(1,000), (1,000,000)] with a 1,000 increment spacing.
 # This is used to summarize the results in a less computationally 
