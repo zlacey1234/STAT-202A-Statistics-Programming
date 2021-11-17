@@ -1,13 +1,23 @@
 #include <Rcpp.h>
 #include <math.h>
-#include <stdio.h>
 
 using namespace Rcpp;
 
 // [[Rcpp::export]]
+/* Function: pareto
+ * Input:
+ *    x: Input variable of the Pareto Density Function f[x].
+ *    c: Constant input variable of the Pareto Density Function f[x].
+ *    p: Constant input variable of the Pareto Density Function f[x].
+ * 
+ * Output:
+ *    paretoResult: Output of the Pareto Density Function f[x].
+ * */
 double pareto(double x, double c, double p) {
+  // Results for the Pareto Density Function.
   double paretoResult;
   
+  // Pareto Density Function
   if (x >= 0) {
     paretoResult = (p - 1)*(pow(c, p - 1))*(pow(x + c, -p));
   } else {
@@ -17,13 +27,25 @@ double pareto(double x, double c, double p) {
 }
 
 // [[Rcpp::export]]
+/* Function: paretoint
+ * Input:
+ *    lowerBound: Lower-bound of the integration.
+ *    upperBound: Upper-bound of the integration.
+ *    n: Number of sample increments in the integration grid [for us we 
+ *           use 1 million values ranging from x = 0 and x = xmax].
+ *    c: Constant input variable of the Pareto Density Function f[x].
+ *    p: Constant input variable of the Pareto Density Function f[x].
+ *    paretoIntegralResult: Initialized variable to store the result.
+ * 
+ * Output:
+ *    paretoIntegralResult: Approximated integral result.
+ *    
+ * */
 double paretoint(double lowerBound, double upperBound, long n, double c, 
                double p, double paretoIntegralResult) {
   double x, xIncrement, f;
   
   xIncrement = (upperBound - lowerBound) / (double) n;
-  
-  
   
   // Initialized values of Pareto Density function f at x = 0. 
   x = lowerBound; 
@@ -34,7 +56,7 @@ double paretoint(double lowerBound, double upperBound, long n, double c,
     x += xIncrement;
     f += pareto(x, c, p);
   }
-  
+  // Approximate the Integral of the Pareto Density function
   paretoIntegralResult = f * xIncrement;
   return paretoIntegralResult;
 }
