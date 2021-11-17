@@ -20,22 +20,28 @@ DoubleVector gaussianKernelRegression(
     int m, DoubleVector g2, DoubleVector res2, 
     double bw) {
   
-  double numerator, denomenator;
+  double numerator, denominator;
   NumericVector kernel;
   
   for (int i = 0; i < m; i++) {
+    // Reset the numerator and denominator variables
     numerator = 0.0;
-    denomenator = 0.0;
+    denominator = 0.0;
     
+    // Solve the kernel Gaussian Kernel using the bandwidth bw.
     kernel = dnorm((X - g2[i]) / bw, 0, 1, 0) / bw;
     
     for (int j = 0; j < n; j++) {
-      
+      // Summation of K[j] * y[j]. Equivalent to dot product of K and y
       numerator += kernel[j] * Y[j];
-      denomenator += kernel[j];
+      
+      // Summation of K[j]. Summation of the Gaussian Kernel elements
+      denominator += kernel[j];
     }
-    if (denomenator > 0.0) {
-      res2[i] = numerator / denomenator;
+    
+    // As long as denominator is greater than 0.0 estimate is finite.
+    if (denominator > 0.0) {
+      res2[i] = numerator / denominator;
     } else {
       res2[i] = 0.0;
     }
