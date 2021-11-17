@@ -162,5 +162,7 @@ sampledPetroleumDataTibble %>% ggplot(aes(x = mi, y = f_mi)) +
   geom_line() + geom_ribbon(aes(ymin = confidence195th, 
                                 ymax = confidence5th), alpha = 0.1) +
   geom_line(aes(x = mi, y = confidence195th), linetype=2) + 
-  geom_line(aes(x = mi, y = confidence5th), linetype=2)
+  geom_line(aes(x = mi, y = confidence5th), linetype=2) +
+  labs(x = expression(m[i]*", i = 1, ..., 100"),
+       y = expression("Kernel Regression Estimate f("*m[i]*")"))
   
